@@ -1,13 +1,122 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Espresso Machine 项目主页</title>
+  <title>Espresso Controller</title>
+  <!-- Lightweight & beautiful: Pico.css (CDN) -->
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <style>
+    :root { --brand: #7c3aed; }
+    header.hero { padding: 6rem 0 3rem; }
+    header .actions a { margin-right: .75rem; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 1rem; }
+    .code { font-size: .9rem; }
+    .badge { background: var(--brand); color: #fff; border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; }
+    footer { margin-top: 4rem; opacity: .7; }
+    img.screenshot { border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
+  </style>
 </head>
 <body>
-  <h1>Espresso Controller</h1>
-  <p>开源的意式咖啡机温压双闭环控制系统（ESP32 + PID + PSM）。</p>
-  <p><a href="https://github.com/MrFangao/EspressoMachine">GitHub 仓库</a></p>
+  <nav class="container">
+    <ul>
+      <li><strong>Espresso Controller</strong></li>
+    </ul>
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#getting-started">Getting Started</a></li>
+      <li><a href="#hardware">Hardware</a></li>
+      <li><a href="https://github.com/MrFangao/EspressoMachine">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero container">
+    <span class="badge">Open Source · ESP32 · PID · PSM</span>
+    <h1>Espresso Machine Dual-Loop Control System</h1>
+    <p>An open-source implementation of a dual closed-loop controller:  
+       Pressure loop (PID + PSM phase control) and Temperature loop (PID + MCPWM),  
+       with OLED knob menu and sensor smoothing.</p>
+    <div class="actions">
+      <a class="contrast" role="button" href="#getting-started">Get Started</a>
+      <a class="secondary" role="button" href="https://github.com/MrFangao/EspressoMachine">View on GitHub</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Screenshot placeholder (replace with your own: docs/assets/hero.png) -->
+    <!-- <img class="screenshot" src="./assets/hero.png" alt="Project preview"> -->
+
+    <section id="features">
+      <h2>Key Features</h2>
+      <div class="features">
+        <article>
+          <h3>Pressure Control Loop</h3>
+          <p>ADC smoothing + MPa/psi conversion. PID output mapped to PSM levels (phase-skip modulation).</p>
+        </article>
+        <article>
+          <h3>Temperature Control Loop</h3>
+          <p>MAX6675 thermocouple readings. PID drives ESP32 MCPWM with precise duty cycle control.</p>
+        </article>
+        <article>
+          <h3>Visual Menu</h3>
+          <p>Adafruit SH1106 OLED + rotary encoder/button. Supports target temp/pressure setup and brew animation.</p>
+        </article>
+        <article>
+          <h3>Modular Codebase</h3>
+          <p><code>pressure_control/*</code>, <code>tempControl/*</code>, <code>Menu/*</code>, etc.  
+             Clean separation for easy extension.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="getting-started">
+      <h2>Getting Started</h2>
+      <details open>
+        <summary>Clone & Build</summary>
+        <pre class="code"><code>git clone https://github.com/MrFangao/EspressoMachine
+# Arduino IDE or PlatformIO:
+# - Select ESP32 board
+# - Install dependencies: PID_v1 / Adafruit_GFX / Adafruit_SH110X / MAX6675
+# - Open the project and flash
+</code></pre>
+      </details>
+      <details>
+        <summary>Project Structure</summary>
+        <pre class="code"><code>src/
+  pressure_control.*   # Pressure PID + PSM
+  pressure_sensor.*    # ADC sampling + filtering + unit conversion
+  tempControl.*        # Temperature PID + MCPWM
+  temp_sensor.*        # MAX6675 readings
+  Menu.* bitmaps.h     # OLED menu and animation
+  pins.h               # Pin definitions
+docs/
+  index.html           # This page (GitHub Pages)
+  assets/              # Images & assets
+</code></pre>
+      </details>
+    </section>
+
+    <section id="hardware">
+      <h2>Hardware Wiring (Example)</h2>
+      <ul>
+        <li>OLED I²C: SDA=21, SCL=22</li>
+        <li>Rotary encoder: A=33, B=25, Button=32</li>
+        <li>Pressure sensor: ADC=36 (0.5–4.5V → divided to 0–3.3V)</li>
+        <li>PSM: Zero-Cross=17, Control=16</li>
+        <li>Heater PWM: GPIO 26 (MCPWM)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contributing</h2>
+      <p>Issues and PRs are welcome!  
+         Please read the <a href="https://github.com/MrFangao/EspressoMachine">README</a> and contribution guidelines first.</p>
+    </section>
+  </main>
+
+  <footer class="container">
+    <hr>
+    <small>© 2025 Espresso Controller · MIT License</small>
+  </footer>
 </body>
 </html>
