@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Features · Espresso Controller</title>
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <style>
+    :root { --brand: #7c3aed; }
+    header.hero { padding: 4rem 0 2rem; }
+    main .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 1rem; }
+    .badge { background: var(--brand); color: #fff; border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; }
+    .muted { opacity: .75; }
+    pre.code { font-size: .9rem; overflow-x: auto; }
+    .kicker { font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+    img.screenshot { border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
+  </style>
+</head>
+<body>
+  <!-- Top nav shared across pages -->
+  <nav class="container">
+    <ul>
+      <li><strong>Espresso Controller</strong></li>
+    </ul>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li aria-current="page"><a href="features.html">Features</a></li>
+      <li><a href="hardware.html">Hardware</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="https://github.com/MrFangao/EspressoMachine">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero container">
+    <span class="badge">Open Source · ESP32 · PID · PSM</span>
+    <h1>Project Features</h1>
+    <p class="muted">A dual closed-loop control system for espresso machines:
+      Pressure loop (PID + Phase-Skip Modulation) and Temperature loop (PID + MCPWM),
+      paired with an OLED menu and real-time sensor smoothing.</p>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2 class="kicker">Overview</h2>
+      <p>
+        Espresso Controller stabilizes <strong>brew pressure</strong> and <strong>water temperature</strong> using two independent PID loops.
+        The system reads a 0.5–4.5V pressure transducer via ADC averaging and a MAX6675 thermocouple for temperature, then
+        modulates power through <em>PSM</em> (phase-skip with zero-cross detection) and <em>MCPWM</em> (heater duty control).
+      </p>
+    </section>
+
+    <section>
+      <h2>Highlights</h2>
+      <div class="grid">
+        <article>
+          <h3>Dual-Loop Control</h3>
+          <p>Independent PID loops for pressure (PSM) and temperature (MCPWM) to ensure consistent extraction.</p>
+        </article>
+        <article>
+          <h3>Real-Time Sensors</h3>
+          <p>ADC-averaged pressure readings with MPa/psi conversion; MAX6675 thermocouple for boiler temp.</p>
+        </article>
+        <article>
+          <h3>OLED Menu UX</h3>
+          <p>Rotary encoder + push button navigation, target setpoints, brew animation, and countdown.</p>
+        </article>
+        <article>
+          <h3>Modular Codebase</h3>
+          <p>Clear separation: <code>pressure_control/*</code>, <code>tempControl/*</code>, <code>Menu/*</code>, <code>temp_sensor/*</code>.</p>
+        </article>
+        <article>
+          <h3>Power Safety</h3>
+          <p>Zero-cross triac control (PSM) and clamped PID outputs; debounced interrupts for stability.</p>
+        </article>
+        <article>
+          <h3>Ready to Extend</h3>
+          <p>Pluggable pins via <code>pins.h</code>; future Wi-Fi dashboard, data logging, and profiling.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Pressure Control (PID + PSM)</h2>
+      <p>
+        The pressure loop reads the transducer, applies averaging to reduce noise, converts to psi, and feeds the PID controller.
+        The PID output (0–100%) is mapped to PSM levels (0–127) to modulate AC power via zero-cross detection.
+      </p>
+      <pre class="code"><code>// Minimal usage example
+pressureCtl.setSetpoint(9.0);            // target = 9 bar
+pressureCtl.setCurrentPressure(psiReading);
+pressureCtl.update();                     // runs PID and updates PSM</code></pre>
+      <p class="muted">Tip: keep the ISR tiny (zero-cross flag only) and compute in the main loop for stability.</p>
+    </section>
+
+    <section>
+      <h2>Temperature Control (PID + MCPWM)</h2>
+      <p>
+        The temperature loop reads MAX6675, drives ESP32 MCPWM to control heater duty cycle, and maintains a stable brew temperature.
+      </p>
+      <pre class="code"><code>// Minimal usage example
+tempControl::setSetpoint(93.0);          // 93 °C
+tempControl::setCurrentTemp(currentC);
+tempControl::update();                    // PID compute + MCPWM duty update</code></pre>
+    </section>
+
+    <section>
+      <h2>OLED User Interface</h2>
+      <p>
+        The OLED (Adafruit SH1106) shows live pressure/temperature, setpoints, and a brewing animation.
+        A rotary encoder provides intuitive navigation; short press to select, rotate to adjust.
+      </p>
+      <!-- Optional screenshot -->
+      <!-- <img class="screenshot" src="assets/oled_menu.png" alt="OLED Menu"> -->
+    </section>
+
+    <section>
+      <h2>Planned & Future</h2>
+      <ul>
+        <li>Wi-Fi dashboard with live charts</li>
+        <li>Data logging and brew profiling</li>
+        <li>Advanced flow profiling / pre-infusion</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Quick Links</h2>
+      <ul>
+        <li><a href="index.html">Home</a> · project overview</li>
+        <li><a href="hardware.html">Hardware</a> · wiring, sensors, triac/SSR notes</li>
+        <li><a href="faq.html">FAQ</a> · common questions & troubleshooting</li>
+        <li><a href="https://github.com/MrFangao/EspressoMachine">GitHub Repo</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="container">
+    <hr>
+    <small>© 2025 Espresso Controller · MIT License</small>
+  </footer>
+</body>
+</html>
