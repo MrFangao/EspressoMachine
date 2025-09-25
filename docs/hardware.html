@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hardware · Espresso Controller</title>
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <style>
+    :root { --brand: #7c3aed; }
+    header.hero { padding: 4rem 0 2rem; }
+    .badge { background: var(--brand); color: #fff; border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; }
+    .muted { opacity: .75; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    img.screenshot { border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
+    table { font-size: 0.95rem; }
+    footer { margin-top: 3rem; opacity: .7; }
+    .kicker { font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+    pre.code { font-size: .9rem; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <!-- Top nav -->
+  <nav class="container">
+    <ul>
+      <li><strong>Espresso Controller</strong></li>
+    </ul>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li aria-current="page"><a href="hardware.html">Hardware</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="https://github.com/MrFangao/EspressoMachine">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero container">
+    <span class="badge">ESP32 · Sensors · Power Control</span>
+    <h1>Hardware</h1>
+    <p class="muted">
+      Overview of the physical components used in the system: display, sensors, control electronics, and the ESP32.
+      This page also lists the wiring and pin mappings used in our prototype.
+    </p>
+  </header>
+
+  <main class="container">
+
+    <!-- Display -->
+    <section>
+      <h2>Display</h2>
+      <p>
+        We use a <strong>128×64 OLED (SSD1306)</strong> connected via <strong>I²C</strong> to present
+        real-time temperature and pressure, along with the on-device menu controlled by a rotary encoder.
+      </p>
+      <!-- Optional screenshot placeholder -->
+      <!-- <img class="screenshot" src="assets/oled_menu.png" alt="OLED menu preview"> -->
+    </section>
+
+    <!-- Sensors -->
+    <section>
+      <h2>Sensors</h2>
+      <div class="grid">
+        <article>
+          <h3>Pressure Sensor</h3>
+          <ul>
+            <li>Analog transducer with 0.5–4.5 V output</li>
+            <li>Read via ADC with averaging filter</li>
+            <li>Converted to MPa/psi for control & display</li>
+          </ul>
+        </article>
+        <article>
+          <h3>MAX6675 Thermocouple (K-Type)</h3>
+          <ul>
+            <li>Replaces the original bimetallic strip control</li>
+            <li>Accurate boiler temperature sensing</li>
+            <li>With PID, we target ≈ <strong>±2 °C</strong> around setpoint</li>
+          </ul>
+        </article>
+      </div>
+      <!-- Optional images -->
+      <!-- <img class="screenshot" src="assets/pressure_sensor.jpg" alt="Pressure sensor"> -->
+      <!-- <img class="screenshot" src="assets/max6675.jpg" alt="MAX6675 module"> -->
+    </section>
+
+    <!-- Control Electronics -->
+    <section>
+      <h2>Control Electronics</h2>
+      <div class="grid">
+        <article>
+          <h3>PID Controller</h3>
+          <p>Computes control output in <strong>0–100 %</strong> based on error to setpoint.</p>
+        </article>
+        <article>
+          <h3>MCPWM (PWM Generator)</h3>
+          <p>Maps PID output to a duty cycle (0–100 %) to regulate the heater.</p>
+        </article>
+        <article>
+          <h3>SSR-40DA Solid-State Relay</h3>
+          <p>Switches the heater according to PWM, providing isolated on/off control for AC load.</p>
+        </article>
+        <article>
+          <h3>Dimmer / PSM for Pump</h3>
+          <p>
+            Phase-Skip Modulation with zero-cross detection adjusts effective AC power to the pump,
+            enabling indirect pressure control.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- MCU -->
+    <section>
+      <h2>Microcontroller</h2>
+      <p>
+        <strong>ESP32</strong> runs the dual-loop control, sensor sampling/filtering, OLED UI, rotary encoder input,
+        PWM generation (MCPWM), and the PSM dimmer interface.
+      </p>
+    </section>
+
+    <!-- Wiring table -->
+    <section>
+      <h2>Wiring & Pin Map (Prototype)</h2>
+      <table role="grid">
+        <thead>
+          <t
