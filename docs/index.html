@@ -97,15 +97,23 @@ docs/
     </section>
 
     <section id="hardware">
-      <h2>Hardware Wiring (Example)</h2>
+      <h2>Hardware Wiring (ESP32 Example)</h2>
       <ul>
-        <li>OLED I²C: SDA=21, SCL=22</li>
-        <li>Rotary encoder: A=33, B=25, Button=32</li>
-        <li>Pressure sensor: ADC=36 (0.5–4.5V → divided to 0–3.3V)</li>
-        <li>PSM: Zero-Cross=17, Control=16</li>
-        <li>Heater PWM: GPIO 26 (MCPWM)</li>
+        <li><strong>Thermocouple (MAX6675/31855)</strong>: SCK = 18, CS = 5, SO = 19</li>
+        <li><strong>Pressure sensor (analog)</strong>: ADC = 36 
+          <em>(0.5–4.5 V → use divider to 0–3.3 V)</em>
+        </li>
+        <li><strong>OLED (I²C, SH1106 128×64)</strong>: SDA = 21, SCL = 22</li>
+        <li><strong>Rotary encoder</strong>: A = 33, B = 25, Button = 32</li>
+        <li><strong>PSM / Dimmer</strong>: Zero-Cross = 17, Control (triac/SSR) = 16</li>
+        <li><strong>Heater control</strong>: GPIO 26 <em>(MCPWM / 0–100% duty)</em></li>
+        <li><strong>Solenoid valve</strong>: GPIO 4</li>
+        <li><strong>Front switches</strong>: Brew = 27, Steam = 13</li>
+        <li><strong>(Optional) Test POT</strong>: ADC = 39</li>
       </ul>
+      <p><small>⚠️ Tie all grounds together. Mains side must use isolated SSR/triac and proper fusing.</small></p>
     </section>
+
 
     <section>
       <h2>Contributing</h2>
