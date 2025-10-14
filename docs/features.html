@@ -69,6 +69,10 @@
           <p>Zero-cross triac control (PSM) and clamped PID outputs; debounced interrupts for stability.</p>
         </article>
         <article>
+          <h3>Live Demo Web Dashboard</h3>
+          <p>Two-function API (<code>init()</code>, <code>update()</code>) renders real-time charts on GitHub Pages.</p>
+        </article>
+        <article>
           <h3>Ready to Extend</h3>
           <p>Pluggable pins via <code>pins.h</code>; future Wi-Fi dashboard, data logging, and profiling.</p>
         </article>
@@ -120,6 +124,53 @@ tempControl::update();                    // PID compute + MCPWM duty update</co
         </figure>
       </div>
     </section>
+      <section id="live-dashboard">
+    <h2>Live Demo Web Dashboard</h2>
+    <p>
+      For the capstone demo, we provide a lightweight <strong>browser dashboard</strong>
+      (GitHub Pages) to visualize telemetry in real time. The page exposes exactly two
+      global functions for the firmware or a small host script to call:
+      <code>init()</code> and
+      <code>update(tempC, psi, tempSetpointC, psiSetpoint)</code>.
+      No extra dependencies or build steps.
+    </p>
+  
+    <div class="grid">
+      <figure>
+        <img class="screenshot" src="assets/webpage.png" alt="Live dashboard with sensor table and temperature chart">
+        <figcaption>Live Dashboard: current values, setpoints, and real-time chart.</figcaption>
+      </figure>
+      <article>
+        <h3>API</h3>
+        <ul>
+          <li><code>init()</code> — call once on start (e.g., in <em>setup()</em>).</li>
+          <li><code>update(tempC, psi, tempSetpointC, psiSetpoint)</code> — call periodically (e.g., every 100–250&nbsp;ms).</li>
+        </ul>
+        <p class="muted">Units: <code>tempC</code>/<code>tempSetpointC</code> in °C, <code>psi</code>/<code>psiSetpoint</code> in psi.</p>
+        <pre class="code"><code>// Pseudocode (firmware/host bridge)
+  void setup() {
+    // ...
+    dashboard.init();          // maps to page's init()
+  }
+  
+  void loop() {
+    // read sensors + setpoints ...
+    dashboard.update(tempC, psi, targetC, targetPsi);
+    delay(150);                // update rate for smooth charting
+  }</code></pre>
+        <p class="muted">Styling (colors, layout, images) is easily customizable if we want a different look for the poster/demo.</p>
+      </article>
+    </div>
+  
+    <details>
+      <summary>Why this helps the demo</summary>
+      <ul>
+        <li><strong>Zero friction:</strong> open the page and call the two functions — no local setup.</li>
+        <li><strong>Clear storytelling:</strong> side-by-side table + chart shows control loops reacting to setpoints.</li>
+        <li><strong>Flexible I/O:</strong> can be driven by serial bridge, WebSerial, WebSocket, or offline replay.</li>
+      </ul>
+    </details>
+  </section>
 
     <section>
       <h2>Planned & Future</h2>
