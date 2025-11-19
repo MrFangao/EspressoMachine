@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Install · Gagginator</title>
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <style>
+    :root { --brand: #7c3aed; }
+    header.hero { padding: 4rem 0 2rem; }
+    main .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 1rem; }
+    .badge { background: var(--brand); color: #fff; border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; }
+    .muted { opacity: .75; }
+    pre.code { font-size: .9rem; overflow-x: auto; }
+    .kicker { font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+    img.screenshot { border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
+  </style>
+</head>
+
+<body>	
+	<!-- Top nav -->
+  <nav class="container">
+    <ul>
+      <li><strong>Gagginator</strong></li>
+    </ul>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li aria-current="page"><a href="hardware.html">Hardware</a></li>
+      <li><a href="https://github.com/cabobalot/Gagginator">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero container">
+    <h1>How to install the Gagginator</h1>
+    <p class="muted">
+      Below is a simple guide to get started installing the Gagginator. This will require some familiarity with electronics and plumbing. This project is fairly involved at its current stage. Warning: espresso machines contain the three horrible hazards: High voltage, high pressure, and hot water. These hazards are scary on their own, and very scary when combined. Proceed at your own risk.
+    </p>
+  </header>
+
+  <main class="container">
+
+	<!-- TODO Schematic section here -->
+
+    <section>
+      <h2>Sensor Install</h2>
+	  <p>
+		While installing the sensors it may be helpful to unscrew the boiler. Unscrew the 4 main bolts holding the boiler from under the group head. This can allow just enough movement of the boiler to reach the hoses and fittings more easily. Be careful not to stretch wires and hoses while doing this.
+	  </p>
+
+	  <h3>Pressure Sensor</h3>
+      <p>
+        The pressure sensor is installed in line between the pump and the boiler. Cut a few inch long section of the new high pressure tubing and crimp the T-fitting on one side and the pressure sensor adapter on the other. Use the adapter with a gasket inside to screw on the pressure sensor.
+      </p>
+	  <figure>
+        <img class="screenshot" src="assets/pressureSensExternal.jpg"
+             alt="Pressure sensor assembly inside the machine">
+        <figcaption>This is the pressure sensor assembly we will add into the machine.</figcaption>
+      </figure>
+	  <p>
+		Inside the machine cut the hose between the pump and the boiler in a convenient location. Remember to slide the hose clamps onto the hose before adding the T fitting of the pressure sensor assembly. Crimp the T fitting. Lay the pressure sensor somewhere out of the way at the bottom of the machine.
+	  </p>
+	  <figure>
+        <img class="screenshot" src="assets/pressureSensInternal.jpg"
+             alt="Pressure sensor assembly installed in the machine">
+        <figcaption>The pressure sensor assembly is joined along the existing hose between the pump and boiler.</figcaption>
+      </figure>
+
+	  <h3>Temperature Sensor</h3>
+	  <p>
+		The thermocouple probe is installed at the bottom of the boiler on the left side, in place of the old brew thermostat. Unplug the thermostat and carefully unscrew it, as the threads are small and delicate. You may need to add thermal paste to the new thermocouple threads before gently screwing it in. Be careful not to bend the wires as you twist it, and only screw it in hand tight.
+	  </p>
+	  <p>
+		Make a small jumper to bridge the old thermostat wires together. This is shown on the schematic as well. Route the thermocouple wire and the pressure sensor wire up to join the control box later.
+	  </p>
+	  <figure>
+		<p>
+			PLACEHOLDER IMAGE OF THERMOCOUPLE IN MACHINE AND ALSO THE JUMPER WIRES ON THE THERMOCOUPLE
+		</p>
+		<figcaption>The thermocouple probe screwed into the old thermostat hole. The jumper connecting the old thermostat is also shown</figcaption>
+	  </figure>
+	  
+    </section>
+
+	<section>
+		<h2>Control box</h2>
+		<p>
+			The control box houses the ESP-32 and the control electronics. Follow the schematic, the pictures, and the <code>pins.h</code> file to wire the components inside. Use small gauge silicone wire for these connections.
+		</p>
+		<p>
+			The grounds of all components are soldered together and wrapped in heat shrink. The 3.3V power from the ESP-32 is split to several components and is also soldered together and wrapped in heat shrink. Ideally all connections are either screw terminals or soldered, so desolder the pin headers and solder on the new connections as needed.
+		</p>
+		<p>
+			The low voltage wires to the screen and heater relay exit the box through the small hole at the bottom, and the high voltage wires all exit on the right side. 
+		</p>
+		<figure>
+			<img class="screenshot" src="assets/controlBoxWiring.jpg"
+				 alt="Control box wiring">
+			<figcaption>Wiring inside the control box. In the top right is the ground connection, and underneath is the snubber, the voltage supply, and the pressure sensor voltage divider.</figcaption>
+		</figure>
+		<p>
+			The pressure sensor works with a 5 volt source, so there is a voltage divider to step down to 3.3 volts for the ESP-32. Vs gets the signal pin of the pressure sensor, and Vo goes to the ADC pin of the ESP-32. This could also be made by soldering the resistors directly and wrapping in heat shrink, or on perf board.
+		</p>
+		<figure>
+			<img class="screenshot" src="assets/voltageDivider.jpg"
+				 alt="Voltage divider for pressure sensor">
+			<figcaption>The voltage divider steps down the 5V from the pressure sensor to 3.3V for the ESP-32 ADC input. Vs is the sensor output, and Vo is the signal to the ESP-32.</figcaption>
+		</figure>
+	</section>
+
+	<section>
+		<h2>Screen and Knob UI Box</h2>
+		<p>
+			The front UI box houses the screen and the rotary encoder knob. Route the wires out the machine through the gap by the water tank, and solder to the screen and knob as shown in the picture.
+		</p>
+		<p>
+			Use a small piece of foam to squish the screen in place while you close the lid. Epoxy the bar magnets to the back of the screen bracket so the UI box magnetically sticks to the screen.
+		</p>
+		<figure>
+			<p>
+				PLACEHOLDER SCREEN PICTURE
+			</p>
+			<!-- <img class="screenshot" src="assets/screenKnobWiring.jpg" alt="UI box wiring"> -->
+			<figcaption>Wiring for the screen and rotary encoder knob.</figcaption>
+		</figure>
+	</section>
+
+	<section>
+		<h2>High Voltage Wiring</h2>
+		<p>This section explains the high voltage wiring very completely and this is totally not placeholder text.</p>
+		<!-- TODO dont forget the heater relay -->
+	</section>
+
+	<!-- TODO screw sizes, -->
+
+
+
+
+  </main>
+
+</body>
