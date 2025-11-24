@@ -31,21 +31,26 @@
     </ul>
   </nav>
 
-  <header class="hero container">
-    <span class="badge">Open Source · ESP32 · PID · PSM</span>
-    <h1>Gagginator Espresso Machine</h1>
-    <p>An open-source implementation of a dual closed-loop controller:  
-       Pressure loop (PID + PSM phase control) and Temperature loop (PID + MCPWM),  
-       with OLED knob menu and sensor smoothing.</p>
-    <div class="actions">
-      <a class="contrast" role="button" href="#getting-started">Get Started</a>
-      <a class="secondary" role="button" href="https://github.com/cabobalot/EspressoMachine">View on GitHub</a>
+<header class="hero container">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; background: var(--card-background-color); border: 1px solid var(--card-border-color); border-radius: 12px; padding: 3rem; box-shadow: 0 10px 40px rgba(0,0,0,.1);">
+      <div>
+        <span class="badge">Open Source · ESP32 · PID · PSM</span>
+        <h1>Gagginator Espresso Machine</h1>
+        <p>An open-source modification of the Gaggia Classic espresso machine. It features precise temperature and pressure control, with
+          real time graphing capabilites, all with the turn of a knob on our minimalistic OLED display.
+        </p>
+        <div class="actions">
+          <a class="contrast" role="button" href="#getting-started">Get Started</a>
+          <a class="secondary" role="button" href="https://github.com/cabobalot/EspressoMachine">View on GitHub</a>
+        </div>
+      </div>
+      <div>
+        <img class="screenshot" src="./assets/GaggiaMain.jpg" alt="Gagginator Espresso Machine Controller" style="width: 100%;">
+      </div>
     </div>
   </header>
 
   <main class="container">
-    <!-- Screenshot placeholder (replace with your own: docs/assets/hero.png) -->
-    <!-- <img class="screenshot" src="./assets/hero.png" alt="Project preview"> -->
 
     <section id="features">
       <h2>Key Features</h2>
@@ -75,9 +80,9 @@
       <details open>
         <summary>Clone & Build</summary>
         <pre class="code"><code>git clone https://github.com/cabobalot/EspressoMachine
-# Arduino IDE or PlatformIO:
-# - Select ESP32 board
-# - Install dependencies: PID_v1 / Adafruit_GFX / Adafruit_SH110X / MAX6675
+# Arduino IDE
+# - Select ESP32-WROOM-32 board
+# - Install dependencies: PID_v1 / Adafruit_GFX / Adafruit_SH110X / MAX6675 / WiFi
 # - Open the project and flash
 </code></pre>
       </details>
