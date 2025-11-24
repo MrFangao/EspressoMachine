@@ -3,134 +3,189 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Espresso Controller</title>
-  <!-- Lightweight & beautiful: Pico.css (CDN) -->
+  <title>Gagginator Espresso Controller</title>
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
   <style>
     :root { --brand: #7c3aed; }
     header.hero { padding: 6rem 0 3rem; }
     header .actions a { margin-right: .75rem; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 1rem; }
-    .code { font-size: .9rem; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 2rem; margin-top: 2rem; }
     .badge { background: var(--brand); color: #fff; border-radius: 999px; padding: .25rem .6rem; font-size: .8rem; }
     footer { margin-top: 4rem; opacity: .7; }
-    img.screenshot { border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
+    img.screenshot { border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.12); width: 100%; }
+    .hero-box { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 3rem; 
+      align-items: center; 
+      background: var(--card-background-color); 
+      border: 1px solid var(--card-border-color); 
+      border-radius: 12px; 
+      padding: 3rem; 
+      box-shadow: 0 10px 40px rgba(0,0,0,.1);
+    }
+    .ui-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0; }
+    .ui-gallery img { border-radius: 8px; border: 2px solid var(--card-border-color); }
+    @media (max-width: 768px) {
+      .hero-box { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
   <nav class="container">
     <ul>
-      <li><strong>Espresso Controller</strong></li>
+      <li><strong>Gagginator</strong></li>
     </ul>
     <ul>
-      <li><a href="features.html">Features</a></li>
-      <li><a href="#getting-started">Getting Started</a></li>
-      <li><a href="hardware.html">Hardware</a></li>
-      <li><a href="install.html">How To Install</a></li>
+      <li><a href="#how-to-use">How To Use</a></li>
+      <li><a href="#install">Installation</a></li>
+      <li><a href="#features">Features</a></li>
       <li><a href="https://github.com/cabobalot/EspressoMachine">GitHub</a></li>
     </ul>
   </nav>
 
-<header class="hero container">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; background: var(--card-background-color); border: 1px solid var(--card-border-color); border-radius: 12px; padding: 3rem; box-shadow: 0 10px 40px rgba(0,0,0,.1);">
+  <header class="hero container">
+    <div class="hero-box">
       <div>
-        <span class="badge">Open Source · ESP32 · PID · PSM</span>
+        <span class="badge">Open Source · Precision Brewing · Smart Control</span>
         <h1>Gagginator Espresso Machine</h1>
         <p>An open-source modification of the Gaggia Classic espresso machine. It features precise temperature and pressure control, with
-          real time graphing capabilites, all with the turn of a knob on our minimalistic OLED display.
-        </p>
+          real time graphing capabilites, all with the turn of a knob on our minimalistic OLED display.</p>
         <div class="actions">
-          <a class="contrast" role="button" href="#getting-started">Get Started</a>
-          <a class="secondary" role="button" href="https://github.com/cabobalot/EspressoMachine">View on GitHub</a>
+          <a class="contrast" role="button" href="#how-to-use">Learn How To Use</a>
+          <a class="secondary" role="button" href="#install">Installation Guide</a>
         </div>
       </div>
       <div>
-        <img class="screenshot" src="./assets/GaggiaMain.jpg" alt="Gagginator Espresso Machine Controller" style="width: 100%;">
+        <img class="screenshot" src="./assets/GaggiaMain.jpg" alt="Gagginator Espresso Machine">
       </div>
     </div>
   </header>
 
   <main class="container">
 
-    <section id="features">
-      <h2>Key Features</h2>
+    <section id="how-to-use">
+      <h2>Brewing Your Perfect Shot</h2>
+      <p>The Gagginator makes brewing a custom espresso shot simple with an minimalistic interface and precise control.</p>
+      
+      <h3 style="margin-top: 2rem;">Key Features</h3>
       <div class="features">
         <article>
-          <h3>Pressure Control Loop</h3>
-          <p>ADC smoothing + MPa/psi conversion. PID output mapped to PSM levels (phase-skip modulation).</p>
+          <h4>🎛️ Precise Control </h4>
+          <p>Have the ability to fine tune your pressure and temperature in real time to create the exact extraction conditions that you want!</p>
         </article>
         <article>
-          <h3>Temperature Control Loop</h3>
-          <p>MAX6675 thermocouple readings. PID drives ESP32 MCPWM with precise duty cycle control.</p>
+          <h4>✅ User-Saved Profiles</h4>
+          <p> Forget how you made your perfect brew? You can now save your desired brew parameters amongst five save profiles, so you will always have access to them!</p>
         </article>
         <article>
-          <h3>Visual Menu</h3>
-          <p>Adafruit SH1106 OLED + rotary encoder/button. Supports target temp/pressure setup and brew animation.</p>
+          <h4>📈 Real Time Tracking</h4>
+          <p>Real-time timer and graph that allows you to monitor the parameter and status of your brew from anywhere around the house!</p>
+        </article>
+      </div>
+
+      <h3 style="margin-top: 3rem;">The Interface</h3>
+      <div class="ui-gallery">
+        <div>
+          <img src="./assets/ui-main-screen.jpg" alt="Main brewing screen" style="object-fit: cover; background: #f0f0f0;">
+          <p style="text-align: center; margin-top: 0.5rem;"><small><strong>Main Screen</strong> - Live temperature, pressure monitoring</small></p>
+        </div>
+        <div>
+          <img src="./assets/Temp_Press_graph.png" alt="Pressure and temperature graph" style="object-fit: cover; background: #f0f0f0;">
+          <p style="text-align: center; margin-top: 0.5rem;"><small><strong>Graph View</strong> - Visualize your pressure and temp profiles in real-time</small></p>
+        </div>
+        <div>
+          <img src="./assets/SettingMenu.jpeg" alt="Settings menu" style="object-fit: cover; background: #f0f0f0;">
+          <p style="text-align: center; margin-top: 0.5rem;"><small><strong>Settings Menu</strong> - Adjust parameters with the rotary encoder</small></p>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Using the Controls</h3>
+      <ol>
+        <li><strong>Turn the knob</strong> to navigate menus and adjust values</li>
+        <li><strong>Press the button</strong> to select and confirm</li>
+        <li><strong>Flip the brew switch</strong> to start your shot</li>
+        <li><strong>Watch the graph on its webpage</strong> to see your brew profile in action</li>
+      </ol>
+    </section>
+
+    <section id="install">
+      <h2>Installation Guide</h2>
+      <p>Installing the Gagginator mods requires opening up your Gaggia Classic and connecting a few components. Basic soldering skills and electrical knowledge required.</p>
+      
+      <details>
+        <summary><strong>What You'll Need</strong></summary>
+        <ul>
+          <li>ESP32-WROOM-32 development board</li>
+          <li>Pressure sensor (0-1.2 MPa / 0-175 PSI)</li>
+          <li>K-type thermocouple with MAX6675 module</li>
+          <li>128x64 OLED display (SH1106)</li>
+          <li>Rotary encoder with push button</li>
+          <li>Solid state relay (SSR) for heater control</li>
+          <li>Basic tools: screwdrivers, wire strippers, soldering iron</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary><strong>Installation Steps</strong></summary>
+        <ol>
+          <li><strong>Safety First:</strong> Unplug the machine and empty the water tank</li>
+          <li><strong>Install the pressure sensor</strong> inline with your brew head</li>
+          <li><strong>Mount the thermocouple</strong>, connecting into the boiler</li>
+          <li><strong>Wire the SSR</strong> to control the heating element</li>
+          <li><strong>Print and Install all the required enclosures</strong> for all the parts in this modification</li>
+          <li><strong>Connect the display and encoder</strong> to the front of the machine</li>
+          <li><strong>Flash the ESP32</strong> with the Gagginator firmware</li>
+          <li><strong>Run the machine</strong> to ensure it works</li>
+        </ol>
+        <p><small>⚠️ <strong>Warning:</strong> This mod involves working with high voltage, high temperatures, and hot water. If you're not comfortable with this electrical work, please do not proceed without assistance or sufficient electrical knowledge and practice.</small></p>
+      </details>
+
+      <details>
+        <summary><strong>Getting the Firmware</strong></summary>
+        <ol>
+          <li>Download from <a href="https://github.com/cabobalot/EspressoMachine">GitHub</a></li>
+          <li>Install Arduino IDE and ESP32 board support</li>
+          <li>Install required libraries: PID_v1, Adafruit_GFX, Adafruit_SH110X, MAX6675, WiFi, LittleFS</li>
+          <li>Flash to your ESP32</li>
+        </ol>
+      </details>
+
+      <p style="margin-top: 2rem;">For detailed wiring diagrams and step-by-step photos, see our <a href="install.html">full installation guide</a>.</p>
+    </section>
+
+    <section id="features">
+      <h2>Why Gagginator?</h2>
+      <div class="features">
+        <article>
+          <h3>🎯 Precision Control</h3>
+          <p> Responsive and programmable pressure profiles allows you to create your perfect brew! </p>
         </article>
         <article>
-          <h3>Modular Codebase</h3>
-          <p><code>pressure_control/*</code>, <code>tempControl/*</code>, <code>Menu/*</code>, etc.  
-             Clean separation for easy extension.</p>
+          <h3>📊 Real-Time Feedback</h3>
+          <p>Live graphing shows exactly what's happening during extraction. Learn what works and replicate it perfectly.</p>
+        </article>
+        <article>
+          <h3>🔓 Open Source</h3>
+          <p>Fully open hardware and software. Customize it, improve it, make it yours. </p>
+        </article>
+        <article>
+          <h3>💰 Affordable Upgrade</h3>
+          <p>Get all the fancy machine features for a fraction of the cost compared to other modifications. Low cost and relatively easy to build!</p>
         </article>
       </div>
     </section>
 
-    <section id="getting-started">
-      <h2>Getting Started</h2>
-      <details open>
-        <summary>Clone & Build</summary>
-        <pre class="code"><code>git clone https://github.com/cabobalot/EspressoMachine
-# Arduino IDE
-# - Select ESP32-WROOM-32 board
-# - Install dependencies: PID_v1 / Adafruit_GFX / Adafruit_SH110X / MAX6675 / WiFi
-# - Open the project and flash
-</code></pre>
-      </details>
-      <details>
-        <summary>Project Structure</summary>
-        <pre class="code"><code>src/
-  pressure_control.*   # Pressure PID + PSM
-  pressure_sensor.*    # ADC sampling + filtering + unit conversion
-  tempControl.*        # Temperature PID + MCPWM
-  temp_sensor.*        # MAX6675 readings
-  Menu.* bitmaps.h     # OLED menu and animation
-  pins.h               # Pin definitions
-docs/
-  index.html           # This page (GitHub Pages)
-  assets/              # Images & assets
-</code></pre>
-      </details>
-    </section>
-
-    <section id="hardware">
-      <h2>Hardware Wiring (ESP32 Example)</h2>
-      <ul>
-        <li><strong>Thermocouple (MAX6675/31855)</strong>: SCK = 18, CS = 5, SO = 19</li>
-        <li><strong>Pressure sensor (analog)</strong>: ADC = 36 
-          <em>(0.5–4.5 V → use divider to 0–3.3 V)</em>
-        </li>
-        <li><strong>OLED (I²C, SH1106 128×64)</strong>: SDA = 21, SCL = 22</li>
-        <li><strong>Rotary encoder</strong>: A = 33, B = 25, Button = 32</li>
-        <li><strong>PSM / Dimmer</strong>: Zero-Cross = 17, Control (triac/SSR) = 16</li>
-        <li><strong>Heater control</strong>: GPIO 26 <em>(MCPWM / 0–100% duty)</em></li>
-        <li><strong>Solenoid valve</strong>: GPIO 4</li>
-        <li><strong>Front switches</strong>: Brew = 27, Steam = 13</li>
-        <li><strong>(Optional) Test POT</strong>: ADC = 39</li>
-      </ul>
-      <p><small>⚠️ Tie all grounds together. Mains side must use isolated SSR/triac and proper fusing.</small></p>
-    </section>
-
-
     <section>
-      <h2>Contributing</h2>
-      <p>Issues and PRs are welcome!  
-         Please read the <a href="https://github.com/cabobalot/EspressoMachine/blob/main/README.md">README</a> and contribution guidelines first.</p>
+      <h2>Contributions</h2>
+      <p>Further upgrade the Gagginator with your ideas! To do so, visit here at our <a href="https://github.com/cabobalot/EspressoMachine">GitHub</a>. 
+         Pull requests and feature suggestions are welcome!</p>
     </section>
   </main>
 
   <footer class="container">
     <hr>
-    <small>© 2025 Espresso Controller · MIT License</small>
+    <small>© 2025 Gagginator Project · MIT License · Made by The Bean Team </small>
   </footer>
 </body>
 </html>
